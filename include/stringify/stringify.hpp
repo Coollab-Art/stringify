@@ -29,6 +29,12 @@ auto stringify(const T& value) -> std::string
     return to_string(value);
 }
 
+template<>
+inline auto stringify(const bool& value) -> std::string
+{
+    return value ? "true" : "false";
+}
+
 template<typename T>
 auto stringify(const T&) -> std::string
 {
