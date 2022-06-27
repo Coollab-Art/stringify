@@ -7,6 +7,7 @@ def ways_of_finding_to_string():
     return [
         ["UseStd", "std::to_string(value)"],
         ["UseAdl", "to_string(value)"],
+        ["UseMethod", "value.to_string()"],
     ]
 
 

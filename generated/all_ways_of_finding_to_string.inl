@@ -19,6 +19,12 @@ concept UseAdl = requires(T value)
     to_string(value);
 };
 
+template<typename T>
+concept UseMethod = requires(T value)
+{
+    value.to_string();
+};
+
 } // namespace internal
 
 
@@ -32,5 +38,11 @@ template<internal::UseAdl T>
 auto stringify(const T& value) -> std::string
 {
     return to_string(value);
+}
+
+template<internal::UseMethod T>
+auto stringify(const T& value) -> std::string
+{
+    return value.to_string();
 }
 
