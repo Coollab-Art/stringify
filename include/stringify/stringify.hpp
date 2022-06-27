@@ -2,39 +2,16 @@
 
 namespace Cool {
 
-namespace internal {
+#include "../generated/all_ways_of_finding_to_string.inl"
 
-template<typename T>
-concept UseStd = requires(T value)
-{
-    std::to_string(value);
-};
-template<typename T>
-concept UseAdl = requires(T value)
-{
-    to_string(value);
-};
-
-} // namespace internal
-
-template<internal::UseStd T>
-auto stringify(const T& value) -> std::string
-{
-    return std::to_string(value);
-}
-
-template<internal::UseAdl T>
-auto stringify(const T& value) -> std::string
-{
-    return to_string(value);
-}
-
+// Proper to_string for booleans
 template<>
 inline auto stringify(const bool& value) -> std::string
 {
     return value ? "true" : "false";
 }
 
+// Default fallback if none of the methods we tried succeeded
 template<typename T>
 auto stringify(const T&) -> std::string
 {
