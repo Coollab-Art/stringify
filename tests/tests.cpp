@@ -17,16 +17,12 @@ auto to_string(const MyCustomType& x) -> std::string
 
 TEST_CASE("stringify a custom type from an unknown namespace")
 {
-    CHECK(Cool::stringify(Some_Random_Namespace::MyCustomType{5})
-          == "MyCustomType with 5");
-    CHECK(Cool::stringify(Some_Random_Namespace::MyCustomType{12})
-          == "MyCustomType with 12");
+    CHECK(Cool::stringify(Some_Random_Namespace::MyCustomType{5}) == "MyCustomType with 5");
+    CHECK(Cool::stringify(Some_Random_Namespace::MyCustomType{12}) == "MyCustomType with 12");
 }
 
 TEST_CASE("stringify a primitive type")
 {
-    CHECK(Cool::stringify(3)
-          == "3");
-    CHECK(Cool::stringify(7)
-          == "7");
+    CHECK(Cool::stringify(3) == "3");
+    CHECK(Cool::stringify(7) == "7");
 }
