@@ -25,6 +25,12 @@ concept UseMethod = requires(T value)
     value.to_string();
 };
 
+template<typename T>
+concept OptionalLike = requires(T value)
+{
+    value ? "Some: " + Cool::stringify(*value) : "None";
+};
+
 } // namespace internal
 
 
@@ -44,5 +50,11 @@ template<internal::UseMethod T>
 auto stringify(const T& value) -> std::string
 {
     return value.to_string();
+}
+
+template<internal::OptionalLike T>
+auto stringify(const T& value) -> std::string
+{
+    return value ? "Some: " + Cool::stringify(*value) : "None";
 }
 

@@ -8,6 +8,8 @@ def ways_of_finding_to_string():
         ["UseStd", "std::to_string(value)"],
         ["UseAdl", "to_string(value)"],
         ["UseMethod", "value.to_string()"],
+        ["OptionalLike",
+            'value ? "Some: " + Cool::stringify(*value) : "None"'],
     ]
 
 
