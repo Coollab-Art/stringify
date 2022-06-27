@@ -70,3 +70,11 @@ TEST_CASE("stringify an optional-like type")
         CHECK(fails_to_stringify(&fail));
     }
 }
+
+#include <list>
+#include <vector>
+TEST_CASE("stringify a range")
+{
+    CHECK(Cool::stringify(std::vector{1, 2, 7}) == "{ 1, 2, 7 }");
+    CHECK(Cool::stringify(std::list{1, 2, 7}) == "{ 1, 2, 7 }");
+}
