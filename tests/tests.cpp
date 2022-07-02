@@ -40,6 +40,12 @@ auto fails_to_stringify(const T& value) -> bool
     return Cool::stringify(value).find("ERROR") != std::string::npos;
 }
 
+template<typename T>
+auto successfully_stringifies(const T& value) -> bool
+{
+    return !fails_to_stringify<T>(value);
+}
+
 TEST_CASE("stringify a custom type from an unknown namespace")
 {
     CHECK(Cool::stringify(Some_Random_Namespace::MyCustomType{5}) == "MyCustomType with 5");
@@ -77,4 +83,16 @@ TEST_CASE("stringify a range")
 {
     CHECK(Cool::stringify(std::vector{1, 2, 7}) == "{ 1, 2, 7 }");
     CHECK(Cool::stringify(std::list{1, 2, 7}) == "{ 1, 2, 7 }");
+}
+
+TEST_CASE("stringify a boolean")
+{
+    CHECK(successfully_stringifies(true));
+    CHECK(successfully_stringifies(false));
+    CHECK(Cool::stringify(true) != "1");  // We want better representations than "1" and "0"
+    CHECK(Cool::stringify(false) != "0"); // e.g. "true" and "false"
+}
+
+TEST_CASE("stringify a std::chrono type")
+{
 }
