@@ -35,11 +35,6 @@ auto stringify(const T& value) -> std::string
 
 // Proper to_string for booleans
 template<>
-inline auto stringify(const bool& value) -> std::string
-{
-    return value
-               ? "true"
-               : "false";
-}
+auto stringify(const bool& value) -> std::string;
 
 } // namespace Cool
