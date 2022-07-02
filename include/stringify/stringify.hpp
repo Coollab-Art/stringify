@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <ranges>
 #include <string>
 
@@ -33,8 +34,9 @@ auto stringify(const T& value) -> std::string
 
 #include "../generated/all_ways_of_finding_to_string.inl" // Must be after the declaration of `stringify()`, otherwise some concepts fail because they don't know about `stringify()`.
 
-// Proper to_string for booleans
 template<>
-auto stringify(const bool& value) -> std::string;
+auto stringify(const bool&) -> std::string;
+template<>
+auto stringify(const std::chrono::system_clock::time_point&) -> std::string;
 
 } // namespace Cool

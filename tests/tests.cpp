@@ -95,4 +95,8 @@ TEST_CASE("stringify a boolean")
 
 TEST_CASE("stringify a std::chrono type")
 {
+    const auto now = std::chrono::system_clock::now();
+    CHECK(successfully_stringifies(now));
+    std::cout << "Stringification of the current time:\n"
+              << Cool::stringify(now) << '\n';
 }
