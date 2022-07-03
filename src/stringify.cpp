@@ -1,5 +1,8 @@
 #include <stringify/stringify.hpp>
 
+#if defined(__GNUC__)
+#include <sstream>
+#endif
 namespace Cool {
 
 template<>
@@ -41,6 +44,7 @@ auto stringify(const std::chrono::system_clock::time_point& value) -> std::strin
 #endif
     if (local_time)
     {
+#if !defined(__GNUC__)
         return std::format(
             "{}:{}'{}\"{}",
             local_time->tm_hour,
@@ -48,6 +52,12 @@ auto stringify(const std::chrono::system_clock::time_point& value) -> std::strin
             local_time->tm_sec,
             std::chrono::duration_cast<std::chrono::milliseconds>(value.time_since_epoch()).count() % 1000
         );
+#else
+        /// format isn't yet supported on GCC :(
+        std::ostringstream buffer; 
+        buffer << local_time->tm_hour << ":" << local_time->tm_min << "'" << local_time->tm_sec << "\"" << std::chrono::duration_cast<std::chrono::milliseconds>(value.time_since_epoch()).count() % 1000;
+        return buffer.str();
+#endif
     }
     else
     {
