@@ -4,3 +4,7 @@ add_library(stringify src/stringify.cpp)
 add_library(stringify::stringify ALIAS stringify)
 target_compile_features(stringify PUBLIC cxx_std_20)
 target_include_directories(stringify PUBLIC include)
+
+# fmt
+add_subdirectory(lib/fmt)
+target_link_libraries(stringify PUBLIC fmt::fmt)
