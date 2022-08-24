@@ -1,8 +1,11 @@
 #pragma once
 
 #include <chrono>
-#include <ranges>
 #include <string>
+
+#if !defined(__APPLE__)
+#include <ranges>
+#endif
 
 namespace Cool {
 
@@ -14,7 +17,20 @@ auto stringify(const T&) -> std::string
 }
 
 // Ranges implementation
+#if defined(__APPLE__) // TODO Remove this hack once Apple compiler has <ranges>
+template<typename T>
+concept Range = requires(T v)
+{
+    // clang-format off
+    {v.begin()} -> std::convertible_to<typename T::iterator>;
+    {v.end()} -> std::convertible_to<typename T::iterator>;
+    // clang-format on
+};
+
+template<Range T>
+#else
 template<std::ranges::range T>
+#endif
 auto stringify(const T& value) -> std::string
 {
     std::string res{"{ "};
