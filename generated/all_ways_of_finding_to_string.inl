@@ -10,25 +10,25 @@ namespace internal {
 template<typename T>
 concept UseStd = requires(T value)
 {
-    {std::to_string(value)} -> std::convertible_to<std::string>;
+    {std::to_string(value)};
 };
 
 template<typename T>
 concept UseAdl = requires(T value)
 {
-    {to_string(value)} -> std::convertible_to<std::string>;
+    {to_string(value)};
 };
 
 template<typename T>
 concept UseMethod = requires(T value)
 {
-    {value.to_string()} -> std::convertible_to<std::string>;
+    {value.to_string()};
 };
 
 template<typename T>
 concept OptionalLike = requires(T value)
 {
-    {value ? "Some: " + Cool::stringify(*value) : "None"} -> std::convertible_to<std::string>;
+    {value ? "Some: " + Cool::stringify(*value) : "None"};
 };
 
 } // namespace internal

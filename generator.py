@@ -21,7 +21,7 @@ def all_ways_of_finding_to_string():
 template<typename T>
 concept {concept_name} = requires(T value)
 {{
-    {{{implementation}}} -> std::convertible_to<std::string>;
+    {{{implementation}}};
 }};
 """
         implementations += f"""
