@@ -10,31 +10,41 @@ namespace internal {
 template<typename T>
 concept UseStd = requires(T value)
 {
-    {std::to_string(value)} -> std::convertible_to<std::string>;
+    {
+        std::to_string(value)
+        } -> std::convertible_to<std::string>;
 };
 
 template<typename T>
 concept UseAdl = requires(T value)
 {
-    {to_string(value)} -> std::convertible_to<std::string>;
+    {
+        to_string(value)
+        } -> std::convertible_to<std::string>;
 };
 
 template<typename T>
 concept UseMethod = requires(T value)
 {
-    {value.to_string()} -> std::convertible_to<std::string>;
+    {
+        value.to_string()
+        } -> std::convertible_to<std::string>;
 };
 
 template<typename T>
 concept Range = requires(T value)
 {
-    {internal::stringify__ranges<T>(value)} -> std::convertible_to<std::string>;
+    {
+        internal::stringify__ranges<T>(value)
+        } -> std::convertible_to<std::string>;
 };
 
 template<typename T>
 concept OptionalLike = requires(T value)
 {
-    {value ? "Some: " + Cool::stringify(*value) : "None"} -> std::convertible_to<std::string>;
+    {
+        value ? "Some: " + Cool::stringify(*value) : "None"
+        } -> std::convertible_to<std::string>;
 };
 
 } // namespace internal
@@ -42,28 +52,28 @@ concept OptionalLike = requires(T value)
 template<typename T>
 auto stringify(const T& value) -> std::string
 {
-    
-if constexpr(internal::UseStd<T>)
-{
-    return std::to_string(value);
-}
-else if constexpr(internal::UseAdl<T>)
-{
-    return to_string(value);
-}
-else if constexpr(internal::UseMethod<T>)
-{
-    return value.to_string();
-}
-else if constexpr(internal::Range<T>)
-{
-    return internal::stringify__ranges<T>(value);
-}
-else if constexpr(internal::OptionalLike<T>)
-{
-    return value ? "Some: " + Cool::stringify(*value) : "None";
-}
-    else {
+    if constexpr (internal::UseStd<T>)
+    {
+        return std::to_string(value);
+    }
+    else if constexpr (internal::UseAdl<T>)
+    {
+        return to_string(value);
+    }
+    else if constexpr (internal::UseMethod<T>)
+    {
+        return value.to_string();
+    }
+    else if constexpr (internal::Range<T>)
+    {
+        return internal::stringify__ranges<T>(value);
+    }
+    else if constexpr (internal::OptionalLike<T>)
+    {
+        return value ? "Some: " + Cool::stringify(*value) : "None";
+    }
+    else
+    {
         return std::string{"[Cool::stringify] ERROR: Couldn't find a to_string() function for this type: "} + typeid(T).name();
     }
 }
