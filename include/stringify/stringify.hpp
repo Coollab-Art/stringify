@@ -22,8 +22,8 @@ template<typename T>
 concept Range = requires(T v)
 {
     // clang-format off
-    {v.begin()} ;
-    {v.end()} ;
+    {v.begin()} -> std::convertible_to<typename T::iterator>;
+    {v.end()} -> std::convertible_to<typename T::iterator>;
     // clang-format on
 };
 
