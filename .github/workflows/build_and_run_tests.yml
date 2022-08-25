@@ -156,7 +156,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_GCC_Debug: 
     name: MacOS GCC Debug
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v3
       with:
@@ -174,7 +174,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_GCC_Release: 
     name: MacOS GCC Release
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v3
       with:
@@ -192,7 +192,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_Clang_Debug:
     name: MacOS Clang Debug 
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v3
       with:
@@ -210,7 +210,7 @@ jobs:
 #-----------------------------------------------------------------------------------------------
   MacOS_Clang_Release: 
     name: MacOS Clang Release
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
     - uses: actions/checkout@v3
       with:
