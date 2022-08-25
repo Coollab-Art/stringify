@@ -32,7 +32,7 @@ concept UseMethod = requires(T value)
 };
 
 template<typename T>
-concept Range = requires(T value)
+concept RangesImplementation = requires(T value)
 {
     {
         internal::stringify__ranges<T>(value)
@@ -64,7 +64,7 @@ auto stringify(const T& value) -> std::string
     {
         return value.to_string();
     }
-    else if constexpr (internal::Range<T>)
+    else if constexpr (internal::RangesImplementation<T>)
     {
         return internal::stringify__ranges<T>(value);
     }

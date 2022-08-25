@@ -8,7 +8,7 @@ def ways_of_finding_to_string():
         ["UseStd", "std::to_string(value)"],
         ["UseAdl", "to_string(value)"],
         ["UseMethod", "value.to_string()"],
-        ["Range", "internal::stringify__ranges<T>(value)"],
+        ["RangesImplementation", "internal::stringify__ranges<T>(value)"],
         ["OptionalLike",
             'value ? "Some: " + Cool::stringify(*value) : "None"'],
     ]
