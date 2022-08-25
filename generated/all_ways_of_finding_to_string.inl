@@ -26,6 +26,12 @@ concept UseMethod = requires(T value)
 };
 
 template<typename T>
+concept Range = requires(T value)
+{
+    {internal::stringify__ranges<T>(value)} -> std::convertible_to<std::string>;
+};
+
+template<typename T>
 concept OptionalLike = requires(T value)
 {
     {value ? "Some: " + Cool::stringify(*value) : "None"} -> std::convertible_to<std::string>;
@@ -33,28 +39,31 @@ concept OptionalLike = requires(T value)
 
 } // namespace internal
 
-
-template<internal::UseStd T>
+template<typename T>
 auto stringify(const T& value) -> std::string
+{
+    
+if constexpr(internal::UseStd<T>)
 {
     return std::to_string(value);
 }
-
-template<internal::UseAdl T>
-auto stringify(const T& value) -> std::string
+else if constexpr(internal::UseAdl<T>)
 {
     return to_string(value);
 }
-
-template<internal::UseMethod T>
-auto stringify(const T& value) -> std::string
+else if constexpr(internal::UseMethod<T>)
 {
     return value.to_string();
 }
-
-template<internal::OptionalLike T>
-auto stringify(const T& value) -> std::string
+else if constexpr(internal::Range<T>)
+{
+    return internal::stringify__ranges<T>(value);
+}
+else if constexpr(internal::OptionalLike<T>)
 {
     return value ? "Some: " + Cool::stringify(*value) : "None";
 }
-
+    else {
+        return std::string{"[Cool::stringify] ERROR: Couldn't find a to_string() function for this type: "} + typeid(T).name();
+    }
+}

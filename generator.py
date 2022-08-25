@@ -8,6 +8,7 @@ def ways_of_finding_to_string():
         ["UseStd", "std::to_string(value)"],
         ["UseAdl", "to_string(value)"],
         ["UseMethod", "value.to_string()"],
+        ["Range", "internal::stringify__ranges<T>(value)"],
         ["OptionalLike",
             'value ? "Some: " + Cool::stringify(*value) : "None"'],
     ]
@@ -16,6 +17,7 @@ def ways_of_finding_to_string():
 def all_ways_of_finding_to_string():
     concepts = ""
     implementations = ""
+    first = True
     for [concept_name, implementation] in ways_of_finding_to_string():
         concepts += f"""
 template<typename T>
@@ -25,18 +27,24 @@ concept {concept_name} = requires(T value)
 }};
 """
         implementations += f"""
-template<internal::{concept_name} T>
-auto stringify(const T& value) -> std::string
+{"else " if not first else ""}if constexpr(internal::{concept_name}<T>)
 {{
     return {implementation};
-}}
-"""
+}}"""
+        first = False
     return f"""
 namespace internal {{
 {concepts}
 }} // namespace internal
 
-{implementations}
+template<typename T>
+auto stringify(const T& value) -> std::string
+{{
+    {implementations}
+    else {{
+        return std::string{{"[Cool::stringify] ERROR: Couldn't find a to_string() function for this type: "}} + typeid(T).name();
+    }}
+}}
 """
 
 
