@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <sstream>
 #include <string>
 
 #if !defined(__APPLE__)
