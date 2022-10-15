@@ -32,14 +32,6 @@ concept UseMethod = requires(T value)
 };
 
 template<typename T>
-concept UseOstream = requires(T value)
-{
-    {
-        (std::stringstream{} << value).str()
-        } -> std::convertible_to<std::string>;
-};
-
-template<typename T>
 concept RangesImplementation = requires(T value)
 {
     {
@@ -52,6 +44,14 @@ concept OptionalLike = requires(T value)
 {
     {
         value ? "Some: " + Cool::stringify(*value) : "None"
+        } -> std::convertible_to<std::string>;
+};
+
+template<typename T>
+concept UseOstream = requires(T value)
+{
+    {
+        (std::stringstream{} << value).str()
         } -> std::convertible_to<std::string>;
 };
 
@@ -72,10 +72,6 @@ auto stringify(const T& value) -> std::string
     {
         return value.to_string();
     }
-    else if constexpr (internal::UseOstream<T>)
-    {
-        return (std::stringstream{} << value).str();
-    }
     else if constexpr (internal::RangesImplementation<T>)
     {
         return internal::stringify__ranges<T>(value);
@@ -83,6 +79,10 @@ auto stringify(const T& value) -> std::string
     else if constexpr (internal::OptionalLike<T>)
     {
         return value ? "Some: " + Cool::stringify(*value) : "None";
+    }
+    else if constexpr (internal::UseOstream<T>)
+    {
+        return (std::stringstream{} << value).str();
     }
     else
     {

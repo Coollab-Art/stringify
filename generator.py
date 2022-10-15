@@ -8,10 +8,11 @@ def ways_of_finding_to_string():
         ["UseStd", "std::to_string(value)"],
         ["UseAdl", "to_string(value)"],
         ["UseMethod", "value.to_string()"],
-        ["UseOstream", "(std::stringstream{} << value).str()"],
         ["RangesImplementation", "internal::stringify__ranges<T>(value)"],
         ["OptionalLike",
             'value ? "Some: " + Cool::stringify(*value) : "None"'],
+        # "UseOstream" must be after "OptionalLike" because we want pointers to use the optional one rather than ostream
+        ["UseOstream", "(std::stringstream{} << value).str()"],
     ]
 
 
