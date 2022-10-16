@@ -70,6 +70,7 @@ TEST_CASE("stringify an optional-like type")
     CHECK(Cool::stringify((int*)nullptr) == "None");
     CHECK(Cool::stringify((std::optional<bool>)std::nullopt) == "None");
     CHECK(Cool::stringify(std::make_optional(Some_Random_Namespace::MyCustomType{5})) == "Some: MyCustomType with 5");
+    CHECK(Cool::stringify(std::make_optional(std::make_optional(5))) == "Some: Some: 5");
     CHECK(fails_to_stringify(std::make_optional(TypeWithoutToString{})));
     {
         TypeWithoutToString fail;
@@ -99,4 +100,25 @@ TEST_CASE("stringify a std::chrono type")
     CHECK(successfully_stringifies(now));
     std::cout << "Stringification of the current time:\n"
               << Cool::stringify(now) << '\n';
+}
+
+#include <iostream>
+struct WithOstream {
+    int x;
+};
+
+std::ostream& operator<<(std::ostream& os, WithOstream x)
+{
+    os << x.x;
+    return os;
+}
+
+TEST_CASE("stringify using ostream operator <<")
+{
+    CHECK(Cool::stringify(WithOstream{5}) == "5");
+}
+
+TEST_CASE("stringify using ostream operator << and optional")
+{
+    CHECK(Cool::stringify(std::make_optional(WithOstream{5})) == "Some: 5");
 }
