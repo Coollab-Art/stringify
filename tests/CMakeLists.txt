@@ -4,13 +4,24 @@ project(stringify-tests)
 add_executable(${PROJECT_NAME} tests.cpp)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
+# Set warning level
 if (MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE /WX /W4)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4)
 else()
-    target_compile_options(${PROJECT_NAME} PRIVATE -Werror -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
 endif()
 
-set(STRINGIFY_ENABLE_WARNINGS_AS_ERRORS ON)
+# Maybe enable warnings as errors
+set(WARNINGS_AS_ERRORS_FOR_STRINGIFY_TESTS OFF CACHE BOOL "ON iff you want to treat warnings as errors") # Might be overriden in the CMake cache
+
+if(WARNINGS_AS_ERRORS_FOR_STRINGIFY_TESTS)
+    if(MSVC)
+        target_compile_options(${PROJECT_NAME} PRIVATE /WX)
+    else()
+        target_compile_options(${PROJECT_NAME} PRIVATE -Werror)
+    endif()
+endif()
+
 add_subdirectory(.. ${CMAKE_CURRENT_SOURCE_DIR}/build/stringify)
 target_link_libraries(${PROJECT_NAME} PRIVATE stringify::stringify)
 
