@@ -18,13 +18,12 @@ namespace internal {
 // Ranges implementation
 #if defined(__APPLE__) // TODO Remove this hack once Apple compiler has <ranges>
 template<typename T>
-concept Range = requires(T v)
-{
-    // clang-format off
+concept Range = requires(T v) {
+                    // clang-format off
     {v.begin()};
     {v.end()};
-    // clang-format on
-};
+                    // clang-format on
+                };
 
 template<Range T>
 #else
