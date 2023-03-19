@@ -1,9 +1,16 @@
 cmake_minimum_required(VERSION 3.8)
 
+set(WARNINGS_AS_ERRORS_FOR_STRINGIFY OFF CACHE BOOL "ON iff you want to treat warnings as errors")
+
 add_library(stringify src/stringify.cpp)
 add_library(stringify::stringify ALIAS stringify)
 target_compile_features(stringify PUBLIC cxx_std_20)
-target_include_directories(stringify PUBLIC include)
+
+if(WARNINGS_AS_ERRORS_FOR_STRINGIFY)
+    target_include_directories(stringify PUBLIC include)
+else()
+    target_include_directories(stringify SYSTEM PUBLIC include)
+endif()
 
 # fmt
 add_subdirectory(lib/fmt)
@@ -17,7 +24,6 @@ else()
 endif()
 
 # Maybe enable warnings as errors
-set(WARNINGS_AS_ERRORS_FOR_STRINGIFY OFF CACHE BOOL "ON iff you want to treat warnings as errors")
 if(WARNINGS_AS_ERRORS_FOR_STRINGIFY)
     if(MSVC)
         target_compile_options(stringify PRIVATE /WX)
