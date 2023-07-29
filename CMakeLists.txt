@@ -15,9 +15,10 @@ endif()
 # fmt
 add_subdirectory(lib/fmt)
 target_link_libraries(stringify PUBLIC fmt::fmt)
+install(FILES "lib/fmt/LICENSE.rst" DESTINATION "license/fmt")
 
 # Set warning level
-if (MSVC)
+if(MSVC)
     target_compile_options(stringify PRIVATE /W4)
 else()
     target_compile_options(stringify PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wsign-conversion)
