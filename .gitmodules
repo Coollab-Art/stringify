@@ -3,4 +3,4 @@
 	url = https://github.com/CoolLibs/tooling
 [submodule "lib/fmt"]
 	path = lib/fmt
-	url = https://github.com/fmtlib/fmt
+	url = https://github.com/CoolLibs/fmt
