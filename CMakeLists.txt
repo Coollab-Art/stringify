@@ -13,6 +13,7 @@ else()
 endif()
 
 # fmt
+set(FMT_SYSTEM_HEADERS_ATTRIBUTE ON CACHE BOOL "" FORCE)
 add_subdirectory(lib/fmt)
 target_link_libraries(stringify PUBLIC fmt::fmt)
 install(FILES "lib/fmt/LICENSE.rst" DESTINATION "license/fmt")
