@@ -16,7 +16,7 @@ endif()
 set(FMT_SYSTEM_HEADERS ON CACHE BOOL "" FORCE)
 add_subdirectory(lib/fmt)
 target_link_libraries(stringify PUBLIC fmt::fmt)
-install(FILES "lib/fmt/LICENSE.rst" DESTINATION "license/fmt")
+install(FILES "lib/fmt/LICENSE" DESTINATION "license/fmt")
 
 # Set warning level
 if(MSVC)
