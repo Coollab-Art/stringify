@@ -14,6 +14,7 @@ endif()
 
 # fmt
 set(FMT_SYSTEM_HEADERS ON CACHE BOOL "" FORCE)
+set(FMT_INSTALL OFF CACHE BOOL "" FORCE)
 add_subdirectory(lib/fmt)
 target_link_libraries(stringify PUBLIC fmt::fmt)
 install(FILES "lib/fmt/LICENSE" DESTINATION "license/fmt")
