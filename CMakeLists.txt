@@ -17,6 +17,10 @@ set(FMT_SYSTEM_HEADERS ON CACHE BOOL "" FORCE)
 set(FMT_INSTALL OFF CACHE BOOL "" FORCE)
 add_subdirectory(lib/fmt)
 target_link_libraries(stringify PUBLIC fmt::fmt)
+# Recent MSVC versions define __cpp_nontype_template_args >= 201911L, which makes fmt switch to a
+# templated `operator""_a` (using a fixed_string non-type template parameter) that MSVC fails to
+# match against `"name"_a`, breaking the build. Force fmt to use its runtime `const char*` overload.
+target_compile_definitions(fmt PUBLIC FMT_USE_NONTYPE_TEMPLATE_ARGS=0)
 install(FILES "lib/fmt/LICENSE" DESTINATION "license/fmt")
 
 # Set warning level
